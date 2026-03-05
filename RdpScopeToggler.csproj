@@ -22,7 +22,8 @@
 	  <Page Remove="Resources\Styles.xaml" />
 	  <Page Remove="Resources\Templates.xaml" />
 	</ItemGroup>
-	<ItemGroup>
+	<!-- COM Reference disabled for .NET 8 compatibility -->
+	<!-- <ItemGroup>
 	  <COMReference Include="IWshRuntimeLibrary">
 	    <WrapperTool>tlbimp</WrapperTool>
 	    <VersionMinor>0</VersionMinor>
@@ -32,7 +33,7 @@
 	    <Isolated>false</Isolated>
 	    <EmbedInteropTypes>true</EmbedInteropTypes>
 	  </COMReference>
-	</ItemGroup>
+	</ItemGroup> -->
 	<ItemGroup>
 		<Content Include="Assets\cog.ico">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>

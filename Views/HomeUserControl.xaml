@@ -1,279 +1,255 @@
-﻿<UserControl x:Class="RdpScopeToggler.Views.HomeUserControl"
+<UserControl x:Class="RdpScopeToggler.Views.HomeUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:viewmodels="clr-namespace:RdpScopeToggler.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
-             xmlns:views="clr-namespace:RdpScopeToggler.Views"
              xmlns:converter="clr-namespace:RdpScopeToggler.Converters"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <converter:EnumToBoolConverter x:Key="EnumToBoolConverter" />
-        <converter:StringToBoolConverter x:Key="StringToBoolConverter" />
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <converter:BoolToCollapsedConverter x:Key="BoolToCollapsedConverter" />
-        <Style x:Key="WrappedRadioButton" TargetType="RadioButton" BasedOn="{StaticResource MaterialDesignRadioButton}">
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}" 
-                           TextWrapping="Wrap"
-                           TextAlignment="Center"
-                           Width="100"/>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
 
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="{DynamicResource BackgroundBrushLight}">
+            <StackPanel Margin="0">
 
-    <Border Padding="6" DockPanel.Dock="Top" 
-            BorderThickness="0" BorderBrush="Red"
-            d:Background="#F7FAFC"
-            >
+                <!-- Status Overview Section -->
+                <StackPanel Margin="0,0,0,24">
+                    <TextBlock Text="Status Overview" FontSize="18" FontWeight="Bold" Margin="0,0,0,16" Foreground="{DynamicResource TextBrushLightPrimary}" />
 
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <!-- 4 Status Cards Grid -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-            <Border Padding="10 1" BorderThickness="0" BorderBrush="Red">
-                
-                <Grid Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    <!-- Settings button in the corner -->
-                    <Button x:Name="SettingsButton" Grid.Column="0" Width="32" Height="32" Padding="0"
-                        Style="{StaticResource SettingsButton}"
-                        ToolTip="{DynamicResource Settings_translator}"
-                        Command="{Binding NavigateToSettingsCommand}"/>
-
-                    <!-- Indicators -->
-                    <views:IndicatorsUserControl Grid.Column="2" />
-
-                </Grid>
-
-            </Border>
-
-
-            <Border Padding="1" BorderThickness="0" BorderBrush="Red">
-
-                <views:AnyClockUserControl
-                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                CountDownDay="{Binding CountDownDay}"
-                CountDownHour="{Binding CountDownHour}"
-                CountDownMinute="{Binding CountDownMinute}"
-                CountDownSecond="{Binding CountDownSecond}"
-                IsReadOnly="False" 
-                ShowSeconds="False"
-                TimeTitle="{DynamicResource SetTimer_translator}"
-                TimeTitleVisibility="Visible"
-                />
-
-            </Border>
-
-
-            <Border Padding="1" BorderThickness="0" BorderBrush="Red">
-
-                <Grid>
-                    
-                    <!-- Open Access button -->
-                    <Button x:Name="ConnectButton"
-                        IsEnabled="{Binding IsDateValid}"
-                        Command="{Binding OpenAccessCommand}"
-                        Style="{StaticResource ConnectButton}"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        Height="45"
-                        Padding="5"
-                        Margin="10"
-                        RenderTransformOrigin="0.5,0.5">
-                            <TextBlock 
-                                d:Text="Open Access"
-                                Text="{DynamicResource OpenAccess_translator}"
-                                />
-                    </Button>
-                
-                    <!-- הודעת שגיאה שתסתיר את הרדיו באטנים -->
-                    <Border Visibility="{Binding HasDateTimeError, Converter={StaticResource BoolToVisibilityConverter}}"
-                            d:Visibility="Hidden" >
-                        <materialDesign:Card Background="#FFF3CD"
-                                Visibility="{Binding HasDateTimeError, Converter={StaticResource BoolToVisibilityConverter}}"
-                                BorderBrush="#FFE69C"
-                                BorderThickness="1"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                Panel.ZIndex="1">
-                            <StackPanel Orientation="Horizontal" Margin="15,10">
-                                <materialDesign:PackIcon Kind="LightbulbOutline"
-                                    Foreground="#856404"
-                                    Width="18"
-                                    Height="18"
-                                    VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding DateTimeError}"
-                                    Foreground="#856404"
-                                    FontSize="12"
-                                    Margin="8,0,0,0"
-                                    TextWrapping="Wrap"
-                                    VerticalAlignment="Center" />
+                        <!-- Whitelist Active Card -->
+                        <Border Grid.Column="0" Margin="0,0,12,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <Border Width="40" Height="40" CornerRadius="8" Background="#34C759" Padding="8">
+                                        <TextBlock Text="✓" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Text="LIVE" FontSize="10" FontWeight="Bold" Margin="8,0,0,0" Foreground="#34C759" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Text="Whitelist Active" FontSize="13" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <TextBlock Text="Active" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" />
                             </StackPanel>
-                        </materialDesign:Card>
-                    </Border>
-                </Grid>
+                        </Border>
 
-            </Border>
+                        <!-- All Access Disabled Card -->
+                        <Border Grid.Column="1" Margin="12,0,12,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <Border Width="40" Height="40" CornerRadius="8" Background="#FF3B30" Padding="8">
+                                        <TextBlock Text="✗" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Text="SECURE" FontSize="10" FontWeight="Bold" Margin="8,0,0,0" Foreground="#FF3B30" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Text="All Access Disabled" FontSize="13" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <TextBlock Text="Disabled" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                            </StackPanel>
+                        </Border>
 
+                        <!-- Time-based Access Card -->
+                        <Border Grid.Column="2" Margin="12,0,12,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <Border Width="40" Height="40" CornerRadius="8" Background="#FF9500" Padding="8">
+                                        <TextBlock Text="⏰" Foreground="White" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Text="ACTIVE" FontSize="10" FontWeight="Bold" Margin="8,0,0,0" Foreground="#FF9500" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Text="Time-based Access" FontSize="13" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <TextBlock Text="Scheduled" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                            </StackPanel>
+                        </Border>
 
-            <Border Padding="1" BorderThickness="0" BorderBrush="Red">
-
-                <StackPanel Margin="10" >
-
-                <!-- Radio Buttons -->
-                    <Grid Margin="0 0 0 5">
-                        
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <RadioButton Grid.Column="0"
-                                 Content="{DynamicResource AllAddresses_translator}"
-                                 d:Content="All Addresses"
-                                 GroupName="ActionsGroup"
-                                 IsChecked="{Binding SelectedAction, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=RemoteSystems}"
-                                 Style="{StaticResource MaterialDesignRadioButton}"
-                                 HorizontalAlignment="Stretch"
-                                 FontFamily="Bahnschrift"
-                                 FontSize="16"
-                                 Margin="0"/>
-
-                        <RadioButton Grid.Column="1"
-                                 Content="{DynamicResource WhiteList_translator}"
-                                 d:Content="White List"
-                                 GroupName="ActionsGroup"
-                                 IsChecked="{Binding SelectedAction, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=WhiteList}"
-                                 Style="{StaticResource MaterialDesignRadioButton}"
-                                 HorizontalAlignment="Stretch"
-                                 FontFamily="Bahnschrift"
-                                 FontSize="16"
-                                 Margin="0"/>
-                        
+                        <!-- Local Access Active Card -->
+                        <Border Grid.Column="3" Margin="12,0,0,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                    <Border Width="40" Height="40" CornerRadius="8" Background="#34C759" Padding="8">
+                                        <TextBlock Text="✓" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Text="LOCAL" FontSize="10" FontWeight="Bold" Margin="8,0,0,0" Foreground="#34C759" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Text="Local Access Active" FontSize="13" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <TextBlock Text="Active" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                            </StackPanel>
+                        </Border>
                     </Grid>
-                    
-                    <Grid Margin="0" >
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <RadioButton Grid.Column="0"
-                                        Content="{DynamicResource LocalAddresses_translator}"
-                                        d:Content="Local Computers"
-                                        GroupName="ActionsGroup"
-                                        IsChecked="{Binding SelectedAction, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=LocalComputers}"
-                                        Style="{StaticResource MaterialDesignRadioButton}"
-                                        HorizontalAlignment="Stretch"
-                                        FontFamily="Bahnschrift"
-                                        FontSize="16"
-                                        Margin="0"/>
-
-                        <RadioButton Grid.Column="1"
-                                    Content="{DynamicResource LocalAddressesAndWhiteList_translator}"
-                                    d:Content="Local Computers and White List"
-                                    GroupName="ActionsGroup"
-                                    IsChecked="{Binding SelectedAction, Mode=TwoWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=LocalComputersAndWhiteList}"
-                                    Style="{StaticResource WrappedRadioButton}"
-                                    HorizontalAlignment="Stretch"
-                                    FontFamily="Bahnschrift"
-                                    FontSize="13"
-                                    Margin="0"/>
-                        
-                    </Grid>
-
                 </StackPanel>
 
-            </Border>
+                <!-- Quick Actions Section -->
+                <StackPanel Margin="0,0,0,32">
+                    <TextBlock Text="Quick Actions" FontSize="18" FontWeight="Bold" Margin="0,0,0,16" Foreground="{DynamicResource TextBrushLightPrimary}" />
 
+                    <!-- 3 Column Grid for Action Cards -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-            <Border BorderThickness="2" BorderBrush="{StaticResource BlueBrush}" CornerRadius="4"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Padding="10">
-                <StackPanel
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+                        <!-- Schedule Access Card -->
+                        <Border Grid.Column="0" Margin="0,0,16,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <!-- Header with icon -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                    <TextBlock Text="📅" FontSize="18" Margin="0,0,8,0" />
+                                    <TextBlock Text="Schedule Access" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" VerticalAlignment="Center" />
+                                </StackPanel>
 
-                    <!-- Date -->
-                    <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+                                <!-- Date Input -->
+                                <TextBlock Text="Date" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <DatePicker SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+                                            Background="{DynamicResource BackgroundBrushLight}"
+                                            Foreground="{DynamicResource TextBrushLightPrimary}"
+                                            Padding="8" Margin="0,0,0,12"
+                                            Height="36" VerticalContentAlignment="Center" />
 
-                        <Button Command="{Binding UpdateDateCommand}"
-                            ToolTip="עדכון תאריך"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource UpdateDateButton}"
-                            IsEnabled="{Binding IsDateTimeEnabled}"
-                            Margin="10 0 10 0"/>
+                                <!-- Time Range Input -->
+                                <TextBlock Text="Time Range" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="" Background="{DynamicResource BackgroundBrushLight}"
+                                             Foreground="{DynamicResource TextBrushLightPrimary}" Padding="8" Height="36" VerticalContentAlignment="Center" />
+                                    <TextBox Grid.Column="2" Text="" Background="{DynamicResource BackgroundBrushLight}"
+                                             Foreground="{DynamicResource TextBrushLightPrimary}" Padding="8" Height="36" VerticalContentAlignment="Center" />
+                                </Grid>
 
+                                <!-- Set Schedule Button -->
+                                <Button Content="Set Schedule" Style="{StaticResource PrimaryButton}" Margin="0,12,0,0" Height="44" />
+                            </StackPanel>
+                        </Border>
 
+                        <!-- Access Mode Card -->
+                        <Border Grid.Column="1" Margin="16,0,16,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <!-- Header with icon -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                    <TextBlock Text="🔄" FontSize="18" Margin="0,0,8,0" />
+                                    <TextBlock Text="Access Mode" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" VerticalAlignment="Center" />
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" 
-                                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    Margin="10 0 10 0"
-                                    >
-                            <!-- תאריך -->
-                            <DatePicker x:Name="MainDatePicker"
-                                PreviewMouseWheel="DatePicker_MouseWheel"
-                                SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource MaterialDesignDatePicker}"
-                                materialDesign:HintAssist.Hint="{DynamicResource Date_translator}"
-                                MinWidth="100"
-                                FontSize="14"
-                                IsEnabled="{Binding IsDateTimeEnabled}"/>
+                                <!-- Security Level Dropdown -->
+                                <TextBlock Text="Security Level" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,0,0,4" />
+                                <ComboBox Background="{DynamicResource BackgroundBrushLight}"
+                                          Foreground="{DynamicResource TextBrushLightPrimary}"
+                                          Padding="8" Margin="0,0,0,12" Height="36" VerticalContentAlignment="Center">
+                                    <ComboBoxItem>High Strictness (Whitelist Only)</ComboBoxItem>
+                                    <ComboBoxItem>Standard (Scheduled + Local)</ComboBoxItem>
+                                    <ComboBoxItem>Development (All Local Open)</ComboBoxItem>
+                                    <ComboBoxItem>Emergency Lockdown</ComboBoxItem>
+                                </ComboBox>
 
-                            <!-- שעה -->
-                            <materialDesign:TimePicker x:Name="MainTimePicker"
-                                PreviewMouseWheel="TimePicker_MouseWheel"
-                                SelectedTime="{Binding SelectedTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource MaterialDesignTimePicker}"
-                                materialDesign:HintAssist.Hint="{DynamicResource Hour_translator}"
-                                MinWidth="60"
-                                FontSize="14"
-                                Is24Hours="True"
-                                Margin="10,0,0,0"
-                                IsEnabled="{Binding IsDateTimeEnabled}"/>
+                                <!-- Info Box -->
+                                <Border Background="{DynamicResource PrimaryBrush}" BorderThickness="0" CornerRadius="8" Padding="12" Margin="0,0,0,12">
+                                    <TextBlock Text="Current mode restricts all connections except those explicitly listed in the Whitelist tab."
+                                               FontSize="12" Foreground="White" TextWrapping="Wrap" />
+                                </Border>
+
+                                <!-- Apply Settings Button -->
+                                <Button Content="Apply Settings" Style="{StaticResource SecondaryButton}" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Rapid Controls Card -->
+                        <Border Grid.Column="2" Margin="16,0,0,0"
+                                Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="12" Padding="16">
+                            <StackPanel>
+                                <!-- Header with icon -->
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                    <TextBlock Text="⚡" FontSize="18" Margin="0,0,8,0" />
+                                    <TextBlock Text="Rapid Controls" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextBrushLightPrimary}" VerticalAlignment="Center" />
+                                </StackPanel>
+
+                                <!-- 2x2 Button Grid -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="8" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="8" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Open All Button -->
+                                    <Button Grid.Row="0" Grid.Column="0" Content="🔓 Open All" Padding="12,8" Background="#34C759" Foreground="White" FontWeight="Bold" />
+
+                                    <!-- Close All Button -->
+                                    <Button Grid.Row="0" Grid.Column="2" Content="🔒 Close All" Padding="12,8" Background="#FF3B30" Foreground="White" FontWeight="Bold" />
+
+                                    <!-- Enable All Button -->
+                                    <Button Grid.Row="2" Grid.Column="0" Content="✓ Enable All" Padding="12,8" Background="{DynamicResource PrimaryBrush}" Foreground="White" FontWeight="Bold" />
+
+                                    <!-- Disable All Button -->
+                                    <Button Grid.Row="2" Grid.Column="2" Content="✗ Disable All" Padding="12,8" Background="{DynamicResource TextBrushLightSecondary}" Foreground="White" FontWeight="Bold" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Info Banner Section -->
+                <Border Background="{DynamicResource PrimaryBrush}" CornerRadius="12" Padding="32" Margin="0,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Secure Remote Access" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,8" />
+                            <TextBlock Text="Monitor and control your desktop connectivity from a single dashboard. Your rules are processed at the hardware level for maximum security."
+                                       FontSize="14" Foreground="White" TextWrapping="Wrap" Margin="0,0,0,16" />
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="View Detailed Logs" Background="White" Foreground="{DynamicResource PrimaryBrush}" Padding="16,8" Margin="0,0,12,0" FontWeight="Bold" />
+                                <Button Content="Quick Setup Wizard" Background="Transparent" Foreground="White" Padding="16,8" BorderThickness="1" BorderBrush="White" FontWeight="Bold" />
+                            </StackPanel>
                         </StackPanel>
 
-
-                        <CheckBox HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Margin="10 0 10 0"
-                            Style="{StaticResource CustomToggleSwitch}"
-                            IsChecked="{Binding IsDateTimeEnabled, Mode=TwoWay}"/>
-                    </StackPanel>
-
-
-
-                </StackPanel>
-            </Border>
-
-
-        </StackPanel>
-        
-    </Border>
+                        <Border Grid.Column="1" Width="160" Height="160" CornerRadius="80" Background="White" Opacity="0.2" Margin="32,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 
 </UserControl>
