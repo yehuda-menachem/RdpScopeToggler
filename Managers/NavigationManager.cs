@@ -17,44 +17,12 @@ namespace RdpScopeToggler.Managers
 
         private void UpdateNavigate(ServiceMessage message)
         {
-            RdpTask currentTask = message.CurrentTask;
+            // Don't navigate on every message - let user control navigation
+            // The navigation should only happen on explicit user action via MainWindow buttons
+            // This prevents service messages from interrupting user navigation
 
-            if (currentTask == null)
-                return;
-
-            var parameters = new NavigationParameters
-            {
-                { "task", currentTask }
-            };
-
-            if (currentTask.State == StateEnum.Executed && currentTask.NextTask != null && currentTask.NextTask.State == StateEnum.Executed)
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    regionManager.RequestNavigate("ContentRegion", "HomeUserControl", parameters);
-                });
-            }
-            else if (currentTask.State == StateEnum.Executed && currentTask.NextTask != null && currentTask.NextTask.State == StateEnum.InQueue)
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    regionManager.RequestNavigate("ContentRegion", "TaskUserControl", parameters);
-                });
-            }
-            else if (currentTask.State == StateEnum.InQueue && currentTask.NextTask != null && currentTask.NextTask.State == StateEnum.InQueue)
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    regionManager.RequestNavigate("ContentRegion", "WaitingUserControl", parameters);
-                });
-            }
-            else
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    regionManager.RequestNavigate("ContentRegion", "HomeUserControl", parameters);
-                });
-            }
+            // If needed in the future, we can check if we're already on a specific page
+            // before navigating, or only navigate on specific message types
         }
     }
 }

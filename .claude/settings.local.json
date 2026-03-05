@@ -6,7 +6,11 @@
       "Bash(powershell -Command \"Start-Process ''C:\\\\programming\\\\RdpScopeToggler\\\\bin\\\\Release\\\\net8.0-windows10.0.19041.0\\\\RdpScopeToggler.exe'' -Verb RunAs\")",
       "Bash(powershell -Command \"Get-Service | Where-Object {$_Name -like ''*Rdp*'' -or $_Name -like ''*Scope*''}\")",
       "Bash(sc query RdpScopeService)",
-      "Bash(sc query rdpscopeservice)"
+      "Bash(sc query rdpscopeservice)",
+      "Bash(dotnet build -c Release)",
+      "Bash(tasklist)",
+      "Bash(timeout 3 powershell.exe -Command \"Start-Process ''RdpScopeToggler.exe'' -Verb RunAs\")",
+      "Bash(powershell -Command \"Get-Process RdpScopeToggler -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2\")"
     ]
   }
 }

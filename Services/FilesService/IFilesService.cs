@@ -17,5 +17,11 @@ namespace RdpScopeToggler.Services.FilesService
 
         ActionsEnum GetDefaultStateFromSettings();
         void WriteDefaultStateToSettings(ActionsEnum defaultState);
+
+        bool IsUserLoggedIn();
+        void SaveCredentials(string username, string passwordHash);
+        string GetSavedUsername();
+        string GetSavedPasswordHash();
+        void ClearCredentials();
     }
 }

@@ -8,7 +8,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Border Background="{DynamicResource BackgroundBrushLight}" Padding="32">
+        <Border Background="{DynamicResource ContentAreaBackground}" Padding="32">
             <StackPanel Margin="0">
 
                 <!-- Preferences Header -->
@@ -21,7 +21,7 @@
                 <StackPanel Margin="0,0,0,32">
 
                     <!-- Language Card -->
-                    <Border Background="{DynamicResource BackgroundBrushLightSecondary}"
+                    <Border Background="{DynamicResource CardBackground}"
                             BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
                             CornerRadius="12" Padding="16" Margin="0,0,0,16">
                         <Grid>
@@ -55,7 +55,7 @@
                     </Border>
 
                     <!-- Theme Card -->
-                    <Border Background="{DynamicResource BackgroundBrushLightSecondary}"
+                    <Border Background="{DynamicResource CardBackground}"
                             BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
                             CornerRadius="12" Padding="16" Margin="0,0,0,16">
                         <Grid>
@@ -86,7 +86,7 @@
                     </Border>
 
                     <!-- Default State Card -->
-                    <Border Background="{DynamicResource BackgroundBrushLightSecondary}"
+                    <Border Background="{DynamicResource CardBackground}"
                             BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
                             CornerRadius="12" Padding="16" Margin="0,0,0,16">
                         <Grid>
@@ -117,7 +117,7 @@
                     </Border>
 
                     <!-- About Card -->
-                    <Border Background="{DynamicResource BackgroundBrushLightSecondary}"
+                    <Border Background="{DynamicResource CardBackground}"
                             BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
                             CornerRadius="12" Padding="16" Margin="0,0,0,16">
                         <StackPanel>

@@ -5,12 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:converter="clr-namespace:RdpScopeToggler.Converters"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:RdpScopeToggler.Views"
-             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             d:DesignHeight="600" d:DesignWidth="400"
-             >
+             d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <converter:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
@@ -18,170 +15,133 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
+    <Grid Background="{DynamicResource ContentAreaBackground}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0">
+            <StackPanel Margin="32">
 
-    <Grid>
-        <Border >
-            <DockPanel LastChildFill="True" HorizontalAlignment="Stretch">
+                <!-- Header -->
+                <StackPanel Margin="0,0,0,32">
+                    <TextBlock Text="Local Addresses" FontSize="28" FontWeight="ExtraBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                    <TextBlock Text="Manage and discover computers on your local network." FontSize="14" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                </StackPanel>
 
-                <!-- Main Content Grid -->
-                <Grid DockPanel.Dock="Top" Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <!-- Title -->
-                        <RowDefinition Height="*" />
-                        <!-- Scrollable list -->
-                        <RowDefinition Height="Auto" />
-                        <!-- Buttons -->
-                    </Grid.RowDefinitions>
+                <!-- Network Discovery Card -->
+                <Border Background="{DynamicResource CardBackground}"
+                        BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                        CornerRadius="12" Padding="24" Margin="0,0,0,32">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    <!-- Title -->
-                    <TextBlock Text="{DynamicResource TrustedAddresses_translator}"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Margin="0 0 0 10"
-                       Grid.Row="0"/>
+                        <!-- Section Header -->
+                        <TextBlock Grid.Row="0" Text="Network Scan" FontSize="16" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrushLightPrimary}" Margin="0,0,0,16" />
 
-                    <!-- Scrollable list -->
-                    <Grid Grid.Row="1" Height="280">
-                        <!-- ScrollViewer -->
-                        <Border HorizontalAlignment="Stretch" Margin="0" BorderThickness="0" BorderBrush="Red"
-                                
-                            Style="{DynamicResource MaterialDesignToolBarMainPanelBorderStyle}"
-                                Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                            <ScrollViewer
-                              Margin="0 0 0 10"
-                              Padding="0 0 0 0"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              VerticalScrollBarVisibility="Visible"
-                              Style="{DynamicResource MaterialDesignScrollViewer}">
-                                <ScrollViewer.Resources>
-                                    <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
-                                </ScrollViewer.Resources>
-                                <ItemsControl ItemsSource="{Binding AlwaysOnListItems}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <DockPanel Margin="0 5" FlowDirection="LeftToRight"
-                                                VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                                                >
+                        <!-- Scan Button & Status -->
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <Button Content="🔍 Scan for Local Addresses" Command="{Binding LoadLocalDevicesCommand}"
+                                    Background="{DynamicResource PrimaryBrush}" Foreground="White"
+                                    Padding="16,12" FontWeight="SemiBold"
+                                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
 
-                                                <!-- Result content -->
-
-                                                <Grid HorizontalAlignment="Stretch">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="125" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <!-- Delete button -->
-
-                                                    <Button Grid.Column="0"
-                                                    Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}"
-                                                    HorizontalAlignment="Stretch"
-                                                    VerticalAlignment="Center"
-                                                    VerticalContentAlignment="Center"
-                                                    Style="{StaticResource DeleteButton}"
-                                                    Margin="0" Padding="0"
-                                                    RenderTransformOrigin="0.5,0.5"
-                                                    Width="30" Height="30"/>
-
-
-
-                                                    <!-- Address -->
-                                                    <Border Grid.Column="1"
-                                                        BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="5 0">
-                                                        <Grid>
-                                                            <TextBox x:Name="AddressTextBox"
-                                                                 Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 HorizontalAlignment="Stretch"
-                                                                 VerticalAlignment="Center"
-                                                                 TextAlignment="Center"
-                                                                 VerticalContentAlignment="Center"
-                                                                 FontSize="15"/>
-                                                            <TextBlock Text="192.168.1.10"
-                                                                Foreground="{DynamicResource GrayBrush}"
-                                                                Margin="5,0"
-                                                                VerticalAlignment="Center"
-                                                                HorizontalAlignment="Center"
-                                                                IsHitTestVisible="False"
-                                                                Visibility="{Binding Text, ElementName=AddressTextBox, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}"/>
-                                                        </Grid>
-                                                    </Border>
-                                                    
-                                                    <!-- Name -->
-                                                    <Border Grid.Column="2"
-                                                        BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="5 0">
-                                                        <Grid>
-                                                            <TextBox x:Name="NameTextBox"
-                                                                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                 HorizontalAlignment="Stretch"
-                                                                 VerticalAlignment="Center"
-                                                                 TextAlignment="Center"
-                                                                 VerticalContentAlignment="Center"
-                                                                 FontSize="15"/>
-                                                            <TextBlock Text="LocalPC"
-                                                                   Foreground="{DynamicResource GrayBrush}"
-                                                                   Margin="5,0"
-                                                                   VerticalAlignment="Center"
-                                                                   HorizontalAlignment="Center"
-                                                                   IsHitTestVisible="False"
-                                                                   Visibility="{Binding Text, ElementName=NameTextBox, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}"/>
-                                                        </Grid>
-                                                    </Border>
-
-                                                    <!-- On-Off button -->
-                                                    <CheckBox Grid.Column="3"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           Margin="10 0 0 0"
-                                                           Style="{StaticResource CustomToggleSwitch}"
-                                                           IsChecked="{Binding IsOpen, Mode=TwoWay}"/>
-
-                                                </Grid>
-
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Border>
-                        <!-- Loader -->
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <ProgressBar Width="200" Height="20" IsIndeterminate="True" />
-                            <TextBlock Text="{DynamicResource SacnningForLocalAddresses_translator}" Margin="0 10 0 0" HorizontalAlignment="Center" />
+                            <!-- Loading State -->
+                            <StackPanel Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       HorizontalAlignment="Center" Margin="0,12,0,0">
+                                <ProgressBar Width="200" Height="6" IsIndeterminate="True" Foreground="{DynamicResource PrimaryBrush}" Margin="0,0,0,12" />
+                                <TextBlock Text="Scanning network..." HorizontalAlignment="Center"
+                                          Foreground="{DynamicResource TextBrushLightSecondary}" FontSize="12" />
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
+                </Border>
 
-                    <!-- Action Buttons -->
-                    <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Content="{DynamicResource SacnLocalAddresses_translator}" Command="{Binding LoadLocalDevicesCommand}" Style="{StaticResource SimpleButton}" Margin="5" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
-                            <Button Grid.Column="0" Grid.Row="1" Content="{DynamicResource Add_translator}" Command="{Binding AddItemCommand}" Style="{StaticResource SimpleButton}" Margin="5" IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
-                            <Border Grid.Column="1" Grid.Row="1" CornerRadius="3" IsEnabled="{Binding IsNotSaved}">
-                                <Button 
-                                    Content="{DynamicResource Save_translator}"
-                                    Command="{Binding SaveCommand}"
-                                    Margin="5"
-                                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}">
-                                </Button>
-                            </Border>
-                        </Grid>
-                    </StackPanel>
-                </Grid>
-            </DockPanel>
-        </Border>
+                <!-- Addresses List Card -->
+                <Border Background="{DynamicResource CardBackground}"
+                        BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                        CornerRadius="12" Padding="24"
+                        Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Section Header -->
+                        <TextBlock Grid.Row="0" Text="Discovered Computers" FontSize="16" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrushLightPrimary}" Margin="0,0,0,16" />
+
+                        <!-- List -->
+                        <ScrollViewer Grid.Row="1" MaxHeight="300" VerticalScrollBarVisibility="Auto" Margin="0,0,0,16">
+                            <ItemsControl ItemsSource="{Binding AlwaysOnListItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource BackgroundBrushLight}"
+                                                CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Delete Button -->
+                                                <Button Grid.Column="0"
+                                                        Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Width="36" Height="36" Padding="0"
+                                                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                        Foreground="#FF3B30"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        FontSize="18">
+                                                    <TextBlock Text="✕" FontWeight="Bold" />
+                                                </Button>
+
+                                                <!-- Name & Address -->
+                                                <StackPanel Grid.Column="1" Margin="16,0" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                                    <TextBlock Text="{Binding Address}" FontSize="12"
+                                                               Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                                </StackPanel>
+
+                                                <!-- Status Badge -->
+                                                <Border Grid.Column="2" Background="#E8F5E9" CornerRadius="6" Padding="12,6"
+                                                        VerticalAlignment="Center" Margin="0,0,16,0">
+                                                    <TextBlock Text="Active" FontSize="12" FontWeight="SemiBold"
+                                                               Foreground="#34C759" />
+                                                </Border>
+
+                                                <!-- Toggle -->
+                                                <CheckBox Grid.Column="3" VerticalAlignment="Center"
+                                                         IsChecked="{Binding IsOpen, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <!-- Action Buttons -->
+                        <StackPanel Grid.Row="2" Orientation="Horizontal">
+                            <Button Content="+ Add Address" Command="{Binding AddItemCommand}"
+                                    Background="{DynamicResource PrimaryBrush}" Foreground="White"
+                                    Padding="16,12" FontWeight="SemiBold"
+                                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" Margin="0,0,12,0" />
+                            <Button Content="Save Changes" Command="{Binding SaveCommand}"
+                                    Background="{DynamicResource PrimaryBrush}" Foreground="White"
+                                    Padding="16,12" FontWeight="SemiBold"
+                                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 
 </UserControl>

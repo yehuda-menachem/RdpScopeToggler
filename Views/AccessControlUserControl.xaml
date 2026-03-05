@@ -1,0 +1,171 @@
+<UserControl x:Class="RdpScopeToggler.Views.AccessControlUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <Grid Background="{DynamicResource ContentAreaBackground}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0">
+            <StackPanel Margin="32">
+
+                <!-- Header -->
+                <StackPanel Margin="0,0,0,32">
+                    <TextBlock Text="Access Control" FontSize="28" FontWeight="ExtraBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                    <TextBlock Text="Configure access permissions and control remote connections." FontSize="14" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                </StackPanel>
+
+                <!-- Access Modes Card -->
+                <Border Background="{DynamicResource CardBackground}"
+                        BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                        CornerRadius="12" Padding="24" Margin="0,0,0,32">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <Border Width="48" Height="48" CornerRadius="8" Background="{DynamicResource PrimaryBrush}" Padding="12">
+                                    <TextBlock Text="🔐" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </Border>
+                                <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="Access Modes" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                    <TextBlock Text="Choose how access is controlled" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Modes Selection -->
+                        <StackPanel Grid.Row="1" Margin="0,0,0,0">
+                            <!-- Unrestricted Mode -->
+                            <Border Background="{DynamicResource BackgroundBrushLight}" CornerRadius="8" Padding="16" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Unrestricted Access" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                        <TextBlock Text="Allow all connections" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <RadioButton Grid.Column="1" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Whitelist Only Mode -->
+                            <Border Background="{DynamicResource BackgroundBrushLight}" CornerRadius="8" Padding="16" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Whitelist Only" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                        <TextBlock Text="Restrict to approved addresses only" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <RadioButton Grid.Column="1" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Time-Based Mode -->
+                            <Border Background="{DynamicResource BackgroundBrushLight}" CornerRadius="8" Padding="16" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Time-Based Access" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                        <TextBlock Text="Allow access only during specified hours" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <RadioButton Grid.Column="1" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Security Settings Card -->
+                <Border Background="{DynamicResource CardBackground}"
+                        BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                        CornerRadius="12" Padding="24">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Header -->
+                        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <Border Width="48" Height="48" CornerRadius="8" Background="{DynamicResource PrimaryBrush}" Padding="12">
+                                    <TextBlock Text="⚙️" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </Border>
+                                <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="Security Settings" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                    <TextBlock Text="Configure security options" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Settings Toggles -->
+                        <StackPanel Grid.Row="1">
+                            <!-- Require Authentication -->
+                            <Border Background="{DynamicResource BackgroundBrushLight}" CornerRadius="8" Padding="16" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Require Authentication" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                        <TextBlock Text="Users must authenticate before connecting" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Enable Logging -->
+                            <Border Background="{DynamicResource BackgroundBrushLight}" CornerRadius="8" Padding="16" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}" Margin="0,0,0,12">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Enable Detailed Logging" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                        <TextBlock Text="Log all access attempts and changes" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Auto Lock on Suspicious Activity -->
+                            <Border Background="{DynamicResource BackgroundBrushLight}" CornerRadius="8" Padding="16" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <TextBlock Text="Auto-Lock on Suspicious Activity" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextBrushLightPrimary}" />
+                                        <TextBlock Text="Automatically restrict access on threats" FontSize="12" Foreground="{DynamicResource TextBrushLightSecondary}" Margin="0,4,0,0" />
+                                    </StackPanel>
+                                    <CheckBox Grid.Column="1" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
+</UserControl>

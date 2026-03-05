@@ -1,0 +1,146 @@
+<UserControl x:Class="RdpScopeToggler.Views.LoginUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{DynamicResource BackgroundBrushLight}"
+             Foreground="{DynamicResource TextBrushLightPrimary}"
+             FontFamily="Segoe UI"
+             MinHeight="500">
+
+    <Grid>
+        <!-- Centered content container -->
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+            <!-- Logo & Header -->
+            <StackPanel Margin="0,0,0,48">
+                <Grid HorizontalAlignment="Center" Margin="0,0,0,16">
+                    <Border Width="48" Height="48" CornerRadius="8" Background="{DynamicResource PrimaryBrush}">
+                        <TextBlock Text="&#xE8AF;" FontFamily="Segoe MDL2 Assets" FontSize="24"
+                                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </Grid>
+                <TextBlock Text="RdpScope" FontSize="28" FontWeight="Bold"
+                           Foreground="{DynamicResource TextBrushLightPrimary}"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="Secure Remote Desktop Control" FontSize="13"
+                           Foreground="{DynamicResource TextBrushLightSecondary}"
+                           HorizontalAlignment="Center" Margin="0,4,0,0" />
+            </StackPanel>
+
+            <!-- Login Card -->
+            <Border Background="{DynamicResource BackgroundBrushLight}"
+                    BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                    CornerRadius="12" Padding="32" Margin="0,0,0,24"
+                    Effect="{StaticResource CardShadow}">
+                <StackPanel>
+                    <!-- Username Field -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Username or Email" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrushLightPrimary}" Margin="0,0,0,8" />
+                        <Border Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="8" Height="40">
+                            <TextBox x:Name="UsernameTextBox"
+                                     Padding="16,0,16,0"
+                                     VerticalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="{DynamicResource TextBrushLightPrimary}"
+                                     CaretBrush="{DynamicResource PrimaryBrush}"
+                                     Style="{StaticResource ModernTextBoxStyle}"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Password Field -->
+                    <StackPanel Margin="0,0,0,16">
+                        <TextBlock Text="Password" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextBrushLightPrimary}" Margin="0,0,0,8" />
+                        <Border Background="{DynamicResource BackgroundBrushLightSecondary}"
+                                BorderThickness="1" BorderBrush="{DynamicResource BorderBrushLight}"
+                                CornerRadius="8" Height="40">
+                            <PasswordBox x:Name="PasswordBox"
+                                         Padding="16,0,16,0"
+                                         VerticalAlignment="Stretch"
+                                         VerticalContentAlignment="Center"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         Foreground="{DynamicResource TextBrushLightPrimary}"
+                                         CaretBrush="{DynamicResource PrimaryBrush}"
+                                         Style="{StaticResource ModernPasswordBoxStyle}"/>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <Grid Margin="0,0,0,24">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Grid.Column="0" VerticalAlignment="Center" Margin="0">
+                            <TextBlock Text="Remember me" FontSize="11"
+                                       Foreground="{DynamicResource TextBrushLightSecondary}" />
+                        </CheckBox>
+
+                        <Button Grid.Column="1"
+                                Foreground="{DynamicResource PrimaryBrush}"
+                                FontSize="11" FontWeight="SemiBold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="0"
+                                Cursor="Hand">
+                            <TextBlock Text="Forgot password?" />
+                        </Button>
+                    </Grid>
+
+                    <!-- Login Button -->
+                    <Button x:Name="LoginButton"
+                            Height="44" Margin="0,12,0,0"
+                            Background="{DynamicResource PrimaryBrush}"
+                            Foreground="White"
+                            FontSize="14" FontWeight="Bold"
+                            Cursor="Hand"
+                            Click="LoginButton_Click"
+                            Style="{StaticResource PrimaryButton}">
+                        <TextBlock Text="Sign In" />
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Divider -->
+            <Grid Margin="0,24,0,24" Height="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="{DynamicResource BorderBrushLight}" />
+                <TextBlock Grid.Column="1" Text="or" Foreground="{DynamicResource TextBrushLightTertiary}"
+                           Margin="8,0,8,0" VerticalAlignment="Center" FontSize="11" />
+                <Border Grid.Column="2" Background="{DynamicResource BorderBrushLight}" />
+            </Grid>
+
+            <!-- Windows Authentication Button -->
+            <Button x:Name="WindowsAuthButton"
+                    Height="44"
+                    Cursor="Hand"
+                    Click="WindowsAuthButton_Click"
+                    Style="{StaticResource SecondaryButton}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center" />
+                    <TextBlock Text="Windows Authentication" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <!-- Footer -->
+            <StackPanel HorizontalAlignment="Center" Margin="0,32,0,0">
+                <TextBlock Text="v2.4.0 • Enterprise Edition" FontSize="11"
+                           Foreground="{DynamicResource TextBrushLightTertiary}"
+                           HorizontalAlignment="Center" Margin="0,0,0,8" />
+                <TextBlock Text="© 2026 RdpScope. All rights reserved." FontSize="11"
+                           Foreground="{DynamicResource TextBrushLightTertiary}"
+                           HorizontalAlignment="Center" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -137,16 +137,8 @@ namespace RdpScopeToggler.Services.PipeClientService
 
         private async Task TryReconnectLoop()
         {
-            // ⚠️ Ensure navigation runs on the UI thread
-            var app = Application.Current;
-            if (app?.Dispatcher != null && app.Dispatcher.HasShutdownStarted == false)
-            {
-                app.Dispatcher.Invoke(() =>
-                {
-                    _regionManager.RequestNavigate("ContentRegion", "HomeUserControl");
-                    _regionManager.RequestNavigate("ContentRegion", "WaitingForServiceUserControl");
-                });
-            }
+            // Don't navigate here - let the user stay on their current page while reconnecting
+            // The NavigationManager will handle navigation based on service messages when reconnected
 
             while (!_isConnected)
             {
@@ -168,17 +160,6 @@ namespace RdpScopeToggler.Services.PipeClientService
                     if (_isConnected)
                     {
                         Debug.WriteLine("Reconnected to service.");
-
-                        // ⚠️ Ensure navigation runs on the UI thread
-                        if (app?.Dispatcher != null && app.Dispatcher.HasShutdownStarted == false)
-                        {
-                            app.Dispatcher.Invoke(() =>
-                            {
-                                _regionManager.RequestNavigate("ContentRegion", "HomeUserControl");
-                                _regionManager.RequestNavigate("ContentRegion", "WaitingForServiceUserControl");
-                            });
-                        }
-
                         await AskForUpdate();
                         break;
                     }

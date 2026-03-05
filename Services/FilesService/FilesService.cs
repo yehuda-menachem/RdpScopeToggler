@@ -201,6 +201,135 @@ namespace RdpScopeToggler.Services.FilesService
 
         #endregion
 
+        #region Authentication
+
+        public bool IsUserLoggedIn()
+        {
+            try
+            {
+                EnsureSettingsFileExists();
+                const string pathToSettingsFile = @"C:\ProgramData\RdpScopeToggler\Settings.json";
+                var json = File.ReadAllText(pathToSettingsFile);
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNameCaseInsensitive = true,
+                    Converters = { new JsonStringEnumConverter() }
+                };
+                var settings = JsonSerializer.Deserialize<Settings>(json, options);
+                // Return false if settings is null, or if IsLoggedIn is not set (null) or false
+                if (settings == null)
+                    return false;
+
+                return settings.IsLoggedIn;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error checking login status: {ex.Message}");
+                return false;
+            }
+        }
+
+        public void SaveCredentials(string username, string passwordHash)
+        {
+            const string pathToSettingsFile = @"C:\ProgramData\RdpScopeToggler\Settings.json";
+            Settings settings;
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
+
+            if (File.Exists(pathToSettingsFile))
+            {
+                var json = File.ReadAllText(pathToSettingsFile);
+                settings = JsonSerializer.Deserialize<Settings>(json, options) ?? new Settings();
+            }
+            else
+            {
+                settings = new Settings();
+            }
+
+            settings.Username = username;
+            settings.PasswordHash = passwordHash;
+            settings.IsLoggedIn = true;
+
+            var updatedJson = JsonSerializer.Serialize(settings, options);
+            File.WriteAllText(pathToSettingsFile, updatedJson);
+        }
+
+        public string GetSavedUsername()
+        {
+            try
+            {
+                EnsureSettingsFileExists();
+                const string pathToSettingsFile = @"C:\ProgramData\RdpScopeToggler\Settings.json";
+                var json = File.ReadAllText(pathToSettingsFile);
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    Converters = { new JsonStringEnumConverter() }
+                };
+                var settings = JsonSerializer.Deserialize<Settings>(json, options);
+                return settings?.Username ?? string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        public string GetSavedPasswordHash()
+        {
+            try
+            {
+                EnsureSettingsFileExists();
+                const string pathToSettingsFile = @"C:\ProgramData\RdpScopeToggler\Settings.json";
+                var json = File.ReadAllText(pathToSettingsFile);
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    Converters = { new JsonStringEnumConverter() }
+                };
+                var settings = JsonSerializer.Deserialize<Settings>(json, options);
+                return settings?.PasswordHash ?? string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        public void ClearCredentials()
+        {
+            const string pathToSettingsFile = @"C:\ProgramData\RdpScopeToggler\Settings.json";
+            Settings settings;
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
+
+            if (File.Exists(pathToSettingsFile))
+            {
+                var json = File.ReadAllText(pathToSettingsFile);
+                settings = JsonSerializer.Deserialize<Settings>(json, options) ?? new Settings();
+            }
+            else
+            {
+                settings = new Settings();
+            }
+
+            settings.Username = null;
+            settings.PasswordHash = null;
+            settings.IsLoggedIn = false;
+
+            var updatedJson = JsonSerializer.Serialize(settings, options);
+            File.WriteAllText(pathToSettingsFile, updatedJson);
+        }
+
+        #endregion
+
         #endregion
 
 
@@ -319,7 +448,8 @@ namespace RdpScopeToggler.Services.FilesService
                 var defaultSettings = new RdpScopeToggler.Models.Settings
                 {
                     Language = "en",
-                    DefaultState = Enums.ActionsEnum.CloseRdp
+                    DefaultState = Enums.ActionsEnum.CloseRdp,
+                    IsLoggedIn = false
                 };
 
                 string json = JsonSerializer.Serialize(defaultSettings, new JsonSerializerOptions

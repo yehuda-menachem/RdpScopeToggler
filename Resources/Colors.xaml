@@ -67,4 +67,25 @@
     <SolidColorBrush x:Key="InfoBrushLight" Color="{StaticResource InfoLight}" />
     <SolidColorBrush x:Key="InfoBrushDark" Color="{StaticResource InfoDark}" />
 
+    <!-- Semantic Aliases (content area = gray, cards = white) -->
+    <SolidColorBrush x:Key="ContentAreaBackground" Color="{StaticResource BackgroundLightSecondary}" />
+    <SolidColorBrush x:Key="CardBackground" Color="{StaticResource BackgroundLight}" />
+
+    <!-- Info Banner -->
+    <Color x:Key="InfoBannerLight">#EEEDF9</Color>
+    <SolidColorBrush x:Key="InfoBannerBrush" Color="{StaticResource InfoBannerLight}" />
+
+    <!-- Rapid Controls Tint Colors -->
+    <Color x:Key="OpenTintLight">#E8F5E9</Color>
+    <Color x:Key="CloseTintLight">#FFEBEE</Color>
+    <Color x:Key="EnableTintLight">#E8EAF6</Color>
+    <Color x:Key="DisableTintLight">#F5F5F5</Color>
+    <SolidColorBrush x:Key="OpenTintBrush" Color="{StaticResource OpenTintLight}" />
+    <SolidColorBrush x:Key="CloseTintBrush" Color="{StaticResource CloseTintLight}" />
+    <SolidColorBrush x:Key="EnableTintBrush" Color="{StaticResource EnableTintLight}" />
+    <SolidColorBrush x:Key="DisableTintBrush" Color="{StaticResource DisableTintLight}" />
+
+    <!-- Card Shadow Effect -->
+    <DropShadowEffect x:Key="CardShadow" BlurRadius="12" ShadowDepth="2" Opacity="0.08" RenderingBias="Quality" />
+
 </ResourceDictionary>

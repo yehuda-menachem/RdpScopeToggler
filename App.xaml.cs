@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Navigation.Regions;
 using RdpScopeToggler.Managers;
+using RdpScopeToggler.Services.AuthenticationService;
 using RdpScopeToggler.Services.FilesService;
 using RdpScopeToggler.Services.LanguageService;
 using RdpScopeToggler.Services.LoggerService;
@@ -31,6 +32,7 @@ namespace RdpScopeToggler
     public partial class App
     {
         private CancellationTokenSource _cts;
+        private bool _isUserLoggedIn = false;
 
         public static System.Windows.Forms.NotifyIcon notifyIcon;
         protected override Window CreateShell()
@@ -79,11 +81,14 @@ namespace RdpScopeToggler
             containerRegistry.RegisterSingleton<IServiceExtractor, ServiceExtractor>();
             containerRegistry.RegisterSingleton<ILanguageService, LanguageService>();
             containerRegistry.RegisterSingleton<IFilesService, FilesService>();
+            containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<IPipeClientService, PipeClientService>();
             containerRegistry.RegisterSingleton<IndicatorsUserControlViewModel>();
 
 
             // Register navigation
+            containerRegistry.RegisterForNavigation<LoginUserControl>();
+            containerRegistry.RegisterForNavigation<RegisterUserControl>();
             containerRegistry.RegisterForNavigation<WaitingForServiceUserControl>();
             containerRegistry.RegisterForNavigation<HomeUserControl>();
             containerRegistry.RegisterForNavigation<WaitingUserControl>();
@@ -92,6 +97,7 @@ namespace RdpScopeToggler
             containerRegistry.RegisterForNavigation<WhiteListUserControl>();
             containerRegistry.RegisterForNavigation<MainUserControl>();
             containerRegistry.RegisterForNavigation<LocalAddressesUserControl>();
+            containerRegistry.RegisterForNavigation<AccessControlUserControl>();
         }
 
 
@@ -140,6 +146,28 @@ namespace RdpScopeToggler
             #endregion
 
             var regionManager = Container.Resolve<IRegionManager>();
+            var authService = Container.Resolve<IAuthenticationService>();
+
+            // Check if user is logged in
+            _isUserLoggedIn = authService.IsUserLoggedIn();
+            Debug.WriteLine($"[Auth] User logged in: {_isUserLoggedIn}");
+
+            if (!_isUserLoggedIn)
+            {
+                // Show login screen ONLY
+                Debug.WriteLine("[Auth] Navigating to LoginUserControl - user not logged in");
+                regionManager.RequestNavigate("ContentRegion", "LoginUserControl");
+                return; // IMPORTANT: Don't continue any other initialization
+            }
+
+            // User is logged in, continue with normal initialization
+            Debug.WriteLine("[Auth] User is logged in, continuing with app initialization");
+            await InitializeAppAsync(regionManager);
+
+        }
+
+        private async Task InitializeAppAsync(IRegionManager regionManager)
+        {
             regionManager.RequestNavigate("ContentRegion", "WaitingForServiceUserControl");
 
             var serviceInstaller = Container.Resolve<IServiceInstallationManager>();
@@ -162,7 +190,6 @@ namespace RdpScopeToggler
                 }
             }
 
-
             await Task.Delay(1000);
 
             var pipeClientService = Container.Resolve<IPipeClientService>();
@@ -180,7 +207,6 @@ namespace RdpScopeToggler
                 // אופציונלי: תראה הודעת שגיאה/תנסה שוב
                 Debug.WriteLine("Couldn't connect to the server.");
             }
-
         }
 
         protected override void OnExit(ExitEventArgs e)
