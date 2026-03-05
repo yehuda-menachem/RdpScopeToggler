@@ -74,6 +74,9 @@ namespace RdpScopeToggler.Views
                 SidebarBorder.IsEnabled = true;
                 SidebarBorder.Visibility = Visibility.Visible;
                 HeaderBorder.Visibility = Visibility.Visible;
+                // Restore sidebar column width
+                var grid = (Grid)this.Content;
+                grid.ColumnDefinitions[0].Width = new GridLength(256);
             }
             else
             {
@@ -81,6 +84,9 @@ namespace RdpScopeToggler.Views
                 SidebarBorder.IsEnabled = false;
                 SidebarBorder.Visibility = Visibility.Collapsed;
                 HeaderBorder.Visibility = Visibility.Collapsed;
+                // Collapse sidebar column to make content full-width
+                var grid = (Grid)this.Content;
+                grid.ColumnDefinitions[0].Width = new GridLength(0);
             }
         }
 
@@ -144,6 +150,23 @@ namespace RdpScopeToggler.Views
             PageTitle.Text = "Settings";
         }
 
+        public void ShowAuthenticatedUI()
+        {
+            var authService = ContainerLocator.Container.Resolve<IAuthenticationService>();
+            string currentUser = authService.GetCurrentUsername();
+
+            if (!string.IsNullOrWhiteSpace(currentUser))
+            {
+                CurrentUsername.Text = currentUser;
+                SidebarBorder.IsEnabled = true;
+                SidebarBorder.Visibility = Visibility.Visible;
+                HeaderBorder.Visibility = Visibility.Visible;
+                // Restore sidebar column width
+                var grid = (Grid)this.Content;
+                grid.ColumnDefinitions[0].Width = new GridLength(256);
+            }
+        }
+
         private void OnLogoutClick(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Are you sure you want to logout?", "Confirm Logout",
@@ -158,6 +181,10 @@ namespace RdpScopeToggler.Views
                 SidebarBorder.IsEnabled = false;
                 SidebarBorder.Visibility = Visibility.Collapsed;
                 HeaderBorder.Visibility = Visibility.Collapsed;
+
+                // Collapse sidebar column to make content full-width
+                var grid = (Grid)this.Content;
+                grid.ColumnDefinitions[0].Width = new GridLength(0);
 
                 // Navigate back to login
                 _regionManager?.RequestNavigate("ContentRegion", "LoginUserControl");

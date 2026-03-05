@@ -66,6 +66,11 @@ namespace RdpScopeToggler.Views
             {
                 MessageBox.Show($"Account created successfully for {username}!", "Registration Successful",
                     MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Update MainWindow UI state for authenticated user
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.ShowAuthenticatedUI();
+
                 _regionManager?.RequestNavigate("ContentRegion", "HomeUserControl");
             }
             else

@@ -43,6 +43,11 @@ namespace RdpScopeToggler.Views
                 // Login successful
                 MessageBox.Show($"Welcome back, {username}!", "Login Successful",
                     MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Update MainWindow UI state for authenticated user
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.ShowAuthenticatedUI();
+
                 _regionManager?.RequestNavigate("ContentRegion", "HomeUserControl");
             }
             else
@@ -82,6 +87,11 @@ namespace RdpScopeToggler.Views
                     {
                         MessageBox.Show($"Welcome, {windowsUsername}!", "Authentication Successful",
                             MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Update MainWindow UI state for authenticated user
+                        var mainWindow = Window.GetWindow(this) as MainWindow;
+                        mainWindow?.ShowAuthenticatedUI();
+
                         _regionManager?.RequestNavigate("ContentRegion", "HomeUserControl");
                     }
                     else
@@ -100,6 +110,11 @@ namespace RdpScopeToggler.Views
                                 MessageBox.Show($"Account created for {windowsUsername}!",
                                     "Registration Successful",
                                     MessageBoxButton.OK, MessageBoxImage.Information);
+
+                                // Update MainWindow UI state for authenticated user
+                                var mainWindow = Window.GetWindow(this) as MainWindow;
+                                mainWindow?.ShowAuthenticatedUI();
+
                                 _regionManager?.RequestNavigate("ContentRegion", "HomeUserControl");
                             }
                             else
