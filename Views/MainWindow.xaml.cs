@@ -75,8 +75,10 @@ namespace RdpScopeToggler.Views
                 SidebarBorder.Visibility = Visibility.Visible;
                 HeaderBorder.Visibility = Visibility.Visible;
                 // Restore sidebar column width
-                var grid = (Grid)this.Content;
-                grid.ColumnDefinitions[0].Width = new GridLength(256);
+                if (this.Content is Grid grid && grid.ColumnDefinitions.Count > 0)
+                {
+                    grid.ColumnDefinitions[0].Width = new GridLength(256);
+                }
             }
             else
             {
@@ -85,8 +87,10 @@ namespace RdpScopeToggler.Views
                 SidebarBorder.Visibility = Visibility.Collapsed;
                 HeaderBorder.Visibility = Visibility.Collapsed;
                 // Collapse sidebar column to make content full-width
-                var grid = (Grid)this.Content;
-                grid.ColumnDefinitions[0].Width = new GridLength(0);
+                if (this.Content is Grid grid && grid.ColumnDefinitions.Count > 0)
+                {
+                    grid.ColumnDefinitions[0].Width = new GridLength(0);
+                }
             }
         }
 
@@ -162,8 +166,10 @@ namespace RdpScopeToggler.Views
                 SidebarBorder.Visibility = Visibility.Visible;
                 HeaderBorder.Visibility = Visibility.Visible;
                 // Restore sidebar column width
-                var grid = (Grid)this.Content;
-                grid.ColumnDefinitions[0].Width = new GridLength(256);
+                if (this.Content is Grid grid && grid.ColumnDefinitions.Count > 0)
+                {
+                    grid.ColumnDefinitions[0].Width = new GridLength(256);
+                }
             }
         }
 
@@ -183,8 +189,10 @@ namespace RdpScopeToggler.Views
                 HeaderBorder.Visibility = Visibility.Collapsed;
 
                 // Collapse sidebar column to make content full-width
-                var grid = (Grid)this.Content;
-                grid.ColumnDefinitions[0].Width = new GridLength(0);
+                if (this.Content is Grid grid && grid.ColumnDefinitions.Count > 0)
+                {
+                    grid.ColumnDefinitions[0].Width = new GridLength(0);
+                }
 
                 // Navigate back to login
                 _regionManager?.RequestNavigate("ContentRegion", "LoginUserControl");
