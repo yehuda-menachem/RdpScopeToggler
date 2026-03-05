@@ -114,7 +114,7 @@
         </Border>
 
         <!-- Main Content Area -->
-        <Grid Grid.Column="1" Grid.Row="0" Background="{DynamicResource ContentAreaBackground}">
+        <Grid Grid.Column="1" Grid.Row="0" Background="{DynamicResource BackgroundBrushLight}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="64" />
                 <RowDefinition Height="*" />
