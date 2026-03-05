@@ -143,7 +143,7 @@ namespace RdpScopeToggler.Services.PipeClientService
             {
                 app.Dispatcher.Invoke(() =>
                 {
-                    _regionManager.RequestNavigate("ActionsRegion", "HomeUserControl");
+                    _regionManager.RequestNavigate("ContentRegion", "HomeUserControl");
                     _regionManager.RequestNavigate("ContentRegion", "WaitingForServiceUserControl");
                 });
             }
@@ -174,7 +174,7 @@ namespace RdpScopeToggler.Services.PipeClientService
                         {
                             app.Dispatcher.Invoke(() =>
                             {
-                                _regionManager.RequestNavigate("ActionsRegion", "HomeUserControl");
+                                _regionManager.RequestNavigate("ContentRegion", "HomeUserControl");
                                 _regionManager.RequestNavigate("ContentRegion", "WaitingForServiceUserControl");
                             });
                         }

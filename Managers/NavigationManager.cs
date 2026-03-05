@@ -31,28 +31,28 @@ namespace RdpScopeToggler.Managers
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    regionManager.RequestNavigate("ActionsRegion", "HomeUserControl", parameters);
+                    regionManager.RequestNavigate("ContentRegion", "HomeUserControl", parameters);
                 });
             }
             else if (currentTask.State == StateEnum.Executed && currentTask.NextTask != null && currentTask.NextTask.State == StateEnum.InQueue)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    regionManager.RequestNavigate("ActionsRegion", "TaskUserControl", parameters);
+                    regionManager.RequestNavigate("ContentRegion", "TaskUserControl", parameters);
                 });
             }
             else if (currentTask.State == StateEnum.InQueue && currentTask.NextTask != null && currentTask.NextTask.State == StateEnum.InQueue)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    regionManager.RequestNavigate("ActionsRegion", "WaitingUserControl", parameters);
+                    regionManager.RequestNavigate("ContentRegion", "WaitingUserControl", parameters);
                 });
             }
             else
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    regionManager.RequestNavigate("ActionsRegion", "HomeUserControl", parameters);
+                    regionManager.RequestNavigate("ContentRegion", "HomeUserControl", parameters);
                 });
             }
         }

@@ -171,8 +171,7 @@ namespace RdpScopeToggler
 
             if (await pipeClientService.ConnectAsync(_cts.Token))
             {
-                regionManager.RequestNavigate("ContentRegion", "MainUserControl");
-                regionManager.RequestNavigate("ActionsRegion", "HomeUserControl");
+                regionManager.RequestNavigate("ContentRegion", "HomeUserControl");
 
                 await pipeClientService.AskForUpdate();
             }
