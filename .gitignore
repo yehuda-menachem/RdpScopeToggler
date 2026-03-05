@@ -1,4 +1,16 @@
+# Visual Studio
 .vs/
+.vscode/
+*.csproj.user
+*.user
+
+# Build outputs
 bin/
 obj/
+
+# IDE and editor settings
+.claude/settings.local.json
+*.sln.iml
+
+# Deployment
 Assets/Deployment/RdpScopeTogglerToastListener/*
