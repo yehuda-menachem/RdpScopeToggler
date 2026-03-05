@@ -13,10 +13,11 @@
         Height="800" Width="1200"
         MinHeight="600" MinWidth="900"
         ResizeMode="CanResize"
+        WindowState="Maximized"
 
         Icon="pack://siteoforigin:,,,/Assets/remote-desktop.ico"
 
-        Background="{DynamicResource ContentAreaBackground}"
+        Background="{DynamicResource BackgroundBrushLight}"
         Foreground="{DynamicResource TextBrushLightPrimary}"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
