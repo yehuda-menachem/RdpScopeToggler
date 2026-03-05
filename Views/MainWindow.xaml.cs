@@ -52,19 +52,6 @@ namespace RdpScopeToggler.Views
 
             DwmExtendFrameIntoClientArea(windowHelper.Handle, ref margins);
 
-            SizeToContent = SizeToContent.WidthAndHeight;
-
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                SizeToContent = SizeToContent.Manual;
-
-                // Ensure window is on-screen
-                if (this.Top < 0)
-                    this.Top = 0;
-                if (this.Left < 0)
-                    this.Left = 0;
-            }), DispatcherPriority.Loaded);
-
             // Update username display and enable sidebar
             var authService = ContainerLocator.Container.Resolve<IAuthenticationService>();
             string currentUser = authService.GetCurrentUsername();
