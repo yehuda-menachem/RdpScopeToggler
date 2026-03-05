@@ -20,8 +20,6 @@
         Foreground="{DynamicResource TextBrushLightPrimary}"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
-        AllowsTransparency="True"
-        WindowStyle="SingleBorderWindow"
         Loaded="MainWindow_Loaded"
         >
 
